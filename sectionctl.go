@@ -7,6 +7,7 @@ import (
 	"os"
 	"path/filepath"
 	"time"
+	"encoding/base64"
 
 	"github.com/alecthomas/kong"
 	"github.com/mattn/go-colorable"
@@ -83,7 +84,22 @@ func bootstrap(c *commands.CLI, cmd *kong.Context) {
 
 		}
 		api.Token = t
+
+		username := c.SectionUsername
+        pswd := c.SectionPassword
+        if username != "" && pswd != "" {
+            api.Username = username
+            api.Password = pswd
+            api.BasicAuth = basicAuth(username, pswd)
+        } else {
+            log.Error().Msg(fmt.Sprintln("[ERROR] SECTION_USERNAME and SECTION_PASSWORD required."))
+        }
 	}
+}
+
+func basicAuth(username, password string) string {
+    auth := username + ":" + password
+    return "Basic " + base64.StdEncoding.EncodeToString([]byte(auth))
 }
 
 func main() {
@@ -105,7 +121,7 @@ func main() {
 
 	bootstrap(&c, cmd)
 
-	
+
 	er := cmd.Run()
 	cmd.FatalIfErrorf(er)
 }

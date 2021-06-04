@@ -44,6 +44,8 @@ type CLI struct {
 	DebugOutput        debugOutputFlag              `short:"out" help:"Enable logging on the debug output."`
 	DebugFile          DebugFileFlag                `help:"File path where debug output should be written"`
 	SectionToken       string                       `env:"SECTION_TOKEN" help:"Secret token for API auth"`
+	SectionUsername    string                       `env:"SECTION_USERNAME" help:"Section username for API auth"`
+    SectionPassword    string                       `env:"SECTION_PASSWORD" help:"Section password for API auth"`
 	SectionAPIPrefix   *url.URL                     `default:"https://aperture.section.io" env:"SECTION_API_PREFIX"`
 	SectionAPITimeout  time.Duration                `default:"30s" env:"SECTION_API_TIMEOUT" help:"Request timeout for the Section API"`
 	InstallCompletions kongplete.InstallCompletions `cmd:"" help:"install shell completions"`
